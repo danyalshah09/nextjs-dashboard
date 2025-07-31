@@ -5,7 +5,14 @@ import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
 import { fetchFilteredCustomers, fetchCustomersPages } from '@/app/lib/data';
 import Pagination from '@/app/ui/invoices/pagination';
 
-export default async function Page({searchParams,}:{searchParams?: {query?:string; page?: string;};}) {
+interface PageProps {
+  searchParams?: {
+    query?: string;
+    page?: string;
+  };
+}
+
+export default async function Page({ searchParams }: PageProps) {
     const query = searchParams?.query || '';
     const currentPage = Number(searchParams?.page) || 1;
     const customers = await fetchFilteredCustomers(query,currentPage);
