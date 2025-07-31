@@ -1,3 +1,22 @@
-export default function Page() {
-    return <p>Customers Page</p>;
-  }
+import CustomersTable from "@/app/ui/customers/table";
+import Search from '@/app/ui/search';
+import { Suspense } from 'react';
+import { InvoicesTableSkeleton } from '@/app/ui/skeletons';
+import { fetchFilteredCustomers, fetchCustomersPages } from '@/app/lib/data';
+import Pagination from '@/app/ui/invoices/pagination';
+
+export default async function Page({searchParams,}:{searchParams?: {query?:string; page?: string;};}) {
+    const query = searchParams?.query || '';
+    const currentPage =await  Number(searchParams?.page) || 1;
+    const customers = await fetchFilteredCustomers(query,currentPage);
+    const totalPages = await fetchCustomersPages(query);
+    return (
+   <>
+      <Search placeholder="Search customers..." />
+      <Suspense key={query + currentPage} fallback={<InvoicesTableSkeleton />}>
+        <CustomersTable customers={customers}/>
+      </Suspense>
+      <div className="mt-5 flex w-full justify-center">
+        {totalPages > 1 && <Pagination totalPages={totalPages} />}
+      </div>
+  </>)}
