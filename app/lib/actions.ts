@@ -89,8 +89,6 @@ export async function createInvoice(prevState: State, formData: FormData) {
 }
 
 export async function deleteInvoice(id:string){
-  throw new Error('COOL CODER ');
-
     await sql`DELETE FROM invoices WHERE id = ${id}`
     revalidatePath('/dashboard/invoices')
 }
