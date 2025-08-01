@@ -13,14 +13,14 @@ import { Button } from '@/app/ui/button';
 import {createInvoice} from '@/app/lib/actions'
 
 type State = {
-  message: string | null;
+  message: string;
   errors: {
     [key: string]: string[];
   };
 };
 
 export default function Form({ customers }: { customers: CustomerField[] }) {
-  const initialState: State = { message: null, errors: {} };
+  const initialState: State = { message: '', errors: {} };
 
   const [state, formAction] = useActionState(createInvoice, initialState);
 
